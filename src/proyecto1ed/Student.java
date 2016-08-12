@@ -1,15 +1,14 @@
 package proyecto1ed;
 
 public class Student {
-    private String name, carreer;
-    private int id;
+    private String name, carreer, id;
     
     Student(){
-        name=carreer="";
-        id=-1;
+        name=carreer=id="";
+        
     }
     
-    Student (String name, String carreer, int id){
+    Student (String name, String carreer, String id){
         this.name=name;
         this.carreer=carreer;
         this.id=id;
@@ -31,11 +30,11 @@ public class Student {
         this.carreer = carreer;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
