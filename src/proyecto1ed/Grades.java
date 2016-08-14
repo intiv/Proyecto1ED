@@ -1,27 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package proyecto1ed;
 
-public class LinkedList {
-
+/**
+ *
+ * @author USUARIO-PC
+ */
+public class Grades {
     private class Node{
-        private Student data;
+        private double grade;
         private Node next,prev;
         
         Node(){
-            data=null;
+            grade=0;
             next=prev=null;
         }
         
-        Node(Student data){
-            this.data=data;
+        Node(double grade){
+            this.grade=grade;
             next=prev=null;
         }
         
-        Node(Student data, Node next, Node prev){
-            this.data=data;
+        Node(double grade, Node next, Node prev){
+            this.grade=grade;
             this.next=next;
             this.prev=prev;
         }
-        
+
         public Node getNext(){
             return next;
         }
@@ -38,24 +46,19 @@ public class LinkedList {
             this.prev=prev;
         }
         
-        public Student getData(){
-            return data;
+        public double getGrade(){
+            return grade;
         }
         
-        public void setData(Student data){
-            this.data=data;
-        }
-        
-        @Override
-        public String toString(){
-            return data.toString();
+        public void setGrade(double grade){
+            this.grade=grade;
         }
     }
     
     private int size;
     private Node head;
 
-    LinkedList() {
+    Grades() {
         head = null;
         size = 0;
     }
@@ -63,35 +66,16 @@ public class LinkedList {
     public int length(){
         return size;
     }
-    
-    public int indexOf(Student data) {
-        if (data == null||size==0) {
-            return -1;
-        }
-        Node tmp = head;
-        if (tmp.getData() == data) {
-            return 0;
-        } else {
-            int index = 1;
-            while ((tmp = tmp.getNext()) != null) {
-                if (tmp.getData() == data) {
-                    return index;
-                }
-                index++;
-            }
-        }
-        return -1;
-    }
 
-    public Student get(int ind) {
+    public double get(int ind) {
         if (ind < 0 || ind >= size) {
-            return null;
+            return 0;
         }
         Node tmp = head;
         for (int i = 0; i < ind; i++) {
             tmp = tmp.getNext();
         }
-        return tmp.getData();
+        return tmp.getGrade();
     }
 
     public void reset() {
@@ -99,7 +83,7 @@ public class LinkedList {
             Node tmp = head;
             for (int i = 1; i < size; i++) {
                 tmp = tmp.getNext();
-                tmp.setData(null);
+                tmp.setGrade(0);
                 tmp.setPrev(null);
             }
             tmp.setNext(null);
@@ -110,12 +94,10 @@ public class LinkedList {
         size=0;
     }
     
-    public boolean insert(Student data,int ind){
+    public boolean insert(double grade,int ind){
         if(ind<0||ind>size)
             return false;
-        if(indexOf(data)!=-1)
-            return false;
-        Node nouveau=new Node(data);
+        Node nouveau=new Node(grade);
         if(head==null)
             head=nouveau;
         else{
