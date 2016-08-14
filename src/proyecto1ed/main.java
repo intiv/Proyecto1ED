@@ -1,10 +1,9 @@
 package proyecto1ed;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -12,19 +11,17 @@ import javax.swing.JOptionPane;
 public class main extends javax.swing.JFrame {
 
     File archivo;
-    FileReader in;
     FileWriter out;
+    BufferedWriter bout;
+
     LinkedList students;
 
     public main() {
         initComponents();
         students = new LinkedList();
         try {
-            archivo = new File("./datos.txt");
-            if (!archivo.exists()) {
-                in = new FileReader(archivo);
-            }
-
+            archivo = new File("./Notas.csv");
+            out = new FileWriter(archivo, true);
         } catch (IOException e) {
 
         }
@@ -245,6 +242,11 @@ public class main extends javax.swing.JFrame {
         });
 
         bSave.setText("Guardar datos  (Archivo CSV)");
+        bSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bSaveMouseClicked(evt);
+            }
+        });
 
         bExit.setText("Salir");
         bExit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -297,8 +299,8 @@ public class main extends javax.swing.JFrame {
         int x = JOptionPane.showConfirmDialog(this, "Seguro que desea salir?", "Datos no guardados seran perdidos", JOptionPane.OK_CANCEL_OPTION);
         if (x == JOptionPane.OK_OPTION) {
             try {
-                if (in != null) {
-                    in.close();
+                if (out != null) {
+                    out.close();
                 }
             } catch (IOException ex) {
 
@@ -397,28 +399,51 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_bExitAdminMouseClicked
 
     private void bRemoveGradeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bRemoveGradeMouseClicked
-        if(cbStudents.getSelectedItem()!=null&&cbStudents.getSelectedIndex()!=-1&&jlGrades.getSelectedIndex()!=-1){
-            DefaultListModel updateList=(DefaultListModel)jlGrades.getModel();
-            int index=jlGrades.getSelectedIndex();
-            ((Student)cbStudents.getSelectedItem()).getGrades().remove(index);
+        if (cbStudents.getSelectedItem() != null && cbStudents.getSelectedIndex() != -1 && jlGrades.getSelectedIndex() != -1) {
+            DefaultListModel updateList = (DefaultListModel) jlGrades.getModel();
+            int index = jlGrades.getSelectedIndex();
+            ((Student) cbStudents.getSelectedItem()).getGrades().remove(index);
             updateList.removeElementAt(index);
             jlGrades.setModel(updateList);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Seleccione una nota. Si no hay notas, agregue una o mas primero");
         }
     }//GEN-LAST:event_bRemoveGradeMouseClicked
 
     private void bRemoveStudentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bRemoveStudentMouseClicked
-        if(cbStudents.getSelectedItem()!=null&&cbStudents.getSelectedIndex()!=-1){
-            DefaultComboBoxModel updateStudents=(DefaultComboBoxModel)cbStudents.getModel();
-            int index=cbStudents.getSelectedIndex();
+        if (cbStudents.getSelectedItem() != null && cbStudents.getSelectedIndex() != -1) {
+            DefaultComboBoxModel updateStudents = (DefaultComboBoxModel) cbStudents.getModel();
+            int index = cbStudents.getSelectedIndex();
             students.remove(index);
             updateStudents.removeElementAt(index);
             cbStudents.setModel(updateStudents);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Seleccione un estudiante de la lista.\nSi no hay estudiantes, primero agregue uno o mas al sistemas desde el menu principal");
         }
     }//GEN-LAST:event_bRemoveStudentMouseClicked
+
+    private void bSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bSaveMouseClicked
+        int input = JOptionPane.showConfirmDialog(this, "Esto pasara los estudiantes del sistema a un archivo .csv en la carpeta del programa", "Confirme su eleccion", JOptionPane.OK_CANCEL_OPTION);
+        if (input == JOptionPane.OK_OPTION) {
+            try {
+                for (int i = 0; i < students.length(); i++) {
+                    System.out.println("entro a for " + i);
+                    if (students.get(i).getGrades().length() > 0) {
+                        System.out.println("entro a if, " + students.get(i).toString());
+                        double promedio = 0.0;
+                        for (int j = 0; j < students.get(i).getGrades().length(); j++) {
+                            promedio += students.get(i).getGrades().get(i);
+                        }
+                        promedio /= students.get(i).getGrades().length();
+                        out.write(students.get(i).getName() + "," + promedio + "\n");
+                    }
+                }
+            } catch (IOException | NullPointerException e) {
+                JOptionPane.showMessageDialog(this, "Ocurrio un error escribiendo las notas al archivo");
+            }
+        }
+
+    }//GEN-LAST:event_bSaveMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

@@ -1,8 +1,10 @@
 package proyecto1ed;
 
 public class Student {
+    
     private String name, carreer, id;
     Grades grades;
+    
     Student(){
         name=carreer=id="";
         grades=null;
