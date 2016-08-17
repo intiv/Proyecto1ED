@@ -1,30 +1,29 @@
 package proyecto1ed;
 
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.Random;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class main extends javax.swing.JFrame {
 
     File archivo;
     FileWriter out;
-    BufferedWriter bout;
-
+    FileReader in;
     LinkedList students;
 
     public main() {
         initComponents();
         students = new LinkedList();
-        try {
-            archivo = new File("./Notas.csv");
-            out = new FileWriter(archivo, true);
-        } catch (IOException e) {
-
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -51,11 +50,13 @@ public class main extends javax.swing.JFrame {
         bRemoveGrade = new javax.swing.JButton();
         bRemoveStudent = new javax.swing.JButton();
         bExitAdmin = new javax.swing.JButton();
+        bRandom = new javax.swing.JButton();
         titulo = new javax.swing.JLabel();
         bAdd = new javax.swing.JButton();
         bAdmin = new javax.swing.JButton();
         bSave = new javax.swing.JButton();
         bExit = new javax.swing.JButton();
+        bLoad = new javax.swing.JButton();
 
         jLabel1.setText("Nombre:");
 
@@ -137,6 +138,8 @@ public class main extends javax.swing.JFrame {
 
         jLabel5.setText("Escoja un estudiante: ");
 
+        cbStudents.setEnabled(false);
+        cbStudents.setFocusable(false);
         cbStudents.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbStudentsItemStateChanged(evt);
@@ -175,6 +178,13 @@ public class main extends javax.swing.JFrame {
             }
         });
 
+        bRandom.setText("Random");
+        bRandom.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bRandomMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jdAdminLayout = new javax.swing.GroupLayout(jdAdmin.getContentPane());
         jdAdmin.getContentPane().setLayout(jdAdminLayout);
         jdAdminLayout.setHorizontalGroup(
@@ -193,8 +203,11 @@ public class main extends javax.swing.JFrame {
                             .addComponent(bRemoveStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(bRemoveGrade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(bAddGrade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(cbStudents, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
+                    .addGroup(jdAdminLayout.createSequentialGroup()
+                        .addComponent(cbStudents, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bRandom)))
+                .addContainerGap(112, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdAdminLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bExitAdmin)
@@ -203,11 +216,12 @@ public class main extends javax.swing.JFrame {
         jdAdminLayout.setVerticalGroup(
             jdAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jdAdminLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(28, 28, 28)
                 .addGroup(jdAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(cbStudents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                    .addComponent(cbStudents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bRandom))
+                .addGap(36, 36, 36)
                 .addGroup(jdAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
@@ -255,17 +269,17 @@ public class main extends javax.swing.JFrame {
             }
         });
 
+        bLoad.setText("Cargar Datos desde txt");
+        bLoad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bLoadMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(230, 230, 230)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(bAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(132, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,19 +289,30 @@ public class main extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(bExit, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(251, 251, 251))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(230, 230, 230)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(bLoad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(bAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
                 .addComponent(bAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bSave, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addGap(18, 18, 18)
                 .addComponent(bExit)
                 .addContainerGap(120, Short.MAX_VALUE))
         );
@@ -350,6 +375,7 @@ public class main extends javax.swing.JFrame {
                 resetCB.addElement(students.get(i));
             }
             cbStudents.setModel(resetCB);
+            cbStudents.setSelectedIndex(-1);
             DefaultListModel resetList = new DefaultListModel();
             jlGrades.setModel(resetList);
             jdAdmin.setLocationRelativeTo(this);
@@ -384,7 +410,7 @@ public class main extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "Nota invalida, intente de nuevo");
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | NullPointerException e) {
 
             }
         } else {
@@ -426,24 +452,71 @@ public class main extends javax.swing.JFrame {
         int input = JOptionPane.showConfirmDialog(this, "Esto pasara los estudiantes del sistema a un archivo .csv en la carpeta del programa", "Confirme su eleccion", JOptionPane.OK_CANCEL_OPTION);
         if (input == JOptionPane.OK_OPTION) {
             try {
-                for (int i = 0; i < students.length(); i++) {
-                    System.out.println("entro a for " + i);
-                    if (students.get(i).getGrades().length() > 0) {
-                        System.out.println("entro a if, " + students.get(i).toString());
-                        double promedio = 0.0;
-                        for (int j = 0; j < students.get(i).getGrades().length(); j++) {
-                            promedio += students.get(i).getGrades().get(i);
+                /*boolean validName=false;
+                while(!validName){
+                    String name=JOptionPane.showInputDialog("Ingrese nombre del archivo (sin extension)");
+                    archivo = new File("./"+name+".csv");
+                    if(archivo.exists())
+                        JOptionPane.showMessageDialog(this, "Ese archivo ya existe!");
+                    else
+                        validName=true;
+                }*/
+                JFileChooser chooser = new JFileChooser();
+                FileFilter filter = new FileNameExtensionFilter(null, "csv");
+                chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                chooser.setFileFilter(filter);
+                if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                    out = new FileWriter(chooser.getSelectedFile()+".csv");
+                    for (int i = 0; i < students.length(); i++) {
+                        if (students.get(i).getGrades().length() > 0) {
+                            double promedio = 0.0;
+                            for (int j = 0; j < students.get(i).getGrades().length(); j++) {
+                                promedio += students.get(i).getGrades().get(j);
+                            }
+                            promedio /= students.get(i).getGrades().length();
+                            out.write(students.get(i).getName() + "," + promedio + "\n");
+                            
                         }
-                        promedio /= students.get(i).getGrades().length();
-                        out.write(students.get(i).getName() + "," + promedio + "\n");
                     }
+                    out.close();
                 }
-            } catch (IOException | NullPointerException e) {
+
+            } catch (IOException | NullPointerException | InputMismatchException e) {
                 JOptionPane.showMessageDialog(this, "Ocurrio un error escribiendo las notas al archivo");
             }
         }
 
     }//GEN-LAST:event_bSaveMouseClicked
+
+    private void bLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bLoadMouseClicked
+        try {
+            JFileChooser chooser = new JFileChooser();
+            FileFilter filter = new FileNameExtensionFilter(null, "txt");
+            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            chooser.setFileFilter(filter);
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                archivo = chooser.getSelectedFile();
+                in = new FileReader(archivo);
+                String line;
+                BufferedReader reader = new BufferedReader(in);
+                while ((line = reader.readLine()) != null) {
+                    String[] datos = line.split(",");
+                    students.insert(new Student(datos[0], datos[2], datos[1]), students.length());
+                }
+                JOptionPane.showMessageDialog(this, "Se terminaron de cargar los datos!");
+                reader.close();
+                in.close();
+            }
+        } catch (IOException e) {
+        }
+
+    }//GEN-LAST:event_bLoadMouseClicked
+
+    private void bRandomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bRandomMouseClicked
+        Random rand=new Random();
+        int chosen=rand.nextInt(students.length());
+        cbStudents.setSelectedIndex(chosen);
+    }//GEN-LAST:event_bRandomMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -485,6 +558,8 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton bCancel;
     private javax.swing.JButton bExit;
     private javax.swing.JButton bExitAdmin;
+    private javax.swing.JButton bLoad;
+    private javax.swing.JButton bRandom;
     private javax.swing.JButton bRemoveGrade;
     private javax.swing.JButton bRemoveStudent;
     private javax.swing.JButton bSave;

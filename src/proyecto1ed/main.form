@@ -143,9 +143,13 @@
                               <Component id="bAddGrade" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="cbStudents" min="-2" pref="417" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="cbStudents" min="-2" pref="259" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="bRandom" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="52" max="32767" attributes="0"/>
+                  <EmptySpace pref="112" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
@@ -157,12 +161,13 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cbStudents" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bRandom" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane1" min="-2" pref="254" max="-2" attributes="0"/>
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -192,6 +197,8 @@
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbStudentsItemStateChanged"/>
@@ -256,6 +263,14 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bExitAdminMouseClicked"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JButton" name="bRandom">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Random"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bRandomMouseClicked"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
   </NonVisualComponents>
@@ -281,15 +296,6 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="bAdd" max="32767" attributes="0"/>
-                  <Component id="bAdmin" max="32767" attributes="0"/>
-                  <Component id="bSave" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="132" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -303,6 +309,18 @@
                   </Group>
               </Group>
           </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="bLoad" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="bAdd" max="32767" attributes="0"/>
+                      <Component id="bAdmin" max="32767" attributes="0"/>
+                      <Component id="bSave" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -310,13 +328,15 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Component id="titulo" min="-2" pref="52" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="bAdd" min="-2" pref="43" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="bLoad" min="-2" pref="39" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="bAdd" min="-2" pref="36" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Component id="bAdmin" min="-2" pref="35" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="bSave" min="-2" pref="34" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="bExit" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="120" max="32767" attributes="0"/>
           </Group>
@@ -362,6 +382,14 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bExitMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bLoad">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cargar Datos desde txt"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bLoadMouseClicked"/>
       </Events>
     </Component>
   </SubComponents>

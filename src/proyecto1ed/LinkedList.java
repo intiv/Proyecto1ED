@@ -1,13 +1,12 @@
 package proyecto1ed;
 
-public class LinkedList {
+public class LinkedList extends ADTList{
 
-    private class Node{
+    private class Node extends ADTList.Node{
         private Student data;
-        private Node next,prev;
         
         Node(){
-            data=null;
+            super();
             next=prev=null;
         }
         
@@ -22,22 +21,6 @@ public class LinkedList {
             this.prev=prev;
         }
         
-        public Node getNext(){
-            return next;
-        }
-        
-        public Node getPrev(){
-            return prev;
-        }
-        
-        public void setNext(Node next){
-            this.next=next;
-        }
-        
-        public void setPrev(Node prev){
-            this.prev=prev;
-        }
-        
         public Student getData(){
             return data;
         }
@@ -46,34 +29,28 @@ public class LinkedList {
             this.data=data;
         }
         
+        
         @Override
         public String toString(){
             return data.toString();
         }
     }
     
-    private int size;
-    private Node head;
-
     LinkedList() {
         head = null;
         size = 0;
     }
 
-    public int length(){
-        return size;
-    }
-    
     public int indexOf(Student data) {
         if (data == null||size==0) {
             return -1;
         }
-        Node tmp = head;
+        Node tmp = (Node) head;
         if (tmp.getData() == data) {
             return 0;
         } else {
             int index = 1;
-            while ((tmp = tmp.getNext()) != null) {
+            while ((tmp = (Node) tmp.getNext()) != null) {
                 if (tmp.getData() == data) {
                     return index;
                 }
@@ -87,29 +64,13 @@ public class LinkedList {
         if (ind < 0 || ind >= size) {
             return null;
         }
-        Node tmp = head;
+        Node tmp = (Node) head;
         for (int i = 0; i < ind; i++) {
-            tmp = tmp.getNext();
+            tmp = (Node) tmp.getNext();
         }
         return tmp.getData();
     }
 
-    public void reset() {
-        if (size > 0) {
-            Node tmp = head;
-            for (int i = 1; i < size; i++) {
-                tmp = tmp.getNext();
-                tmp.setData(null);
-                tmp.setPrev(null);
-            }
-            tmp.setNext(null);
-            head = null;
-        }else{
-            head=null;
-        }
-        size=0;
-    }
-    
     public boolean insert(Student data,int ind){
         if(ind<0||ind>size)
             return false;
@@ -124,17 +85,17 @@ public class LinkedList {
                 nouveau.setNext(head);
                 head=nouveau;
             }else if(ind>0&&ind<size){
-                Node tmp=head;
+                Node tmp=(Node) head;
                 for(int i=1;i<ind;i++)
-                    tmp=tmp.getNext();
+                    tmp=(Node) tmp.getNext();
                 nouveau.setPrev(tmp);
                 nouveau.setNext(tmp.getNext());
                 tmp.getNext().setPrev(nouveau);
                 tmp.setNext(nouveau);
             }else{
-                Node tmp=head;
+                Node tmp=(Node) head;
                 for (int i = 1; i < ind; i++)
-                    tmp=tmp.getNext();
+                    tmp=(Node) tmp.getNext();
                 tmp.setNext(nouveau);
                 nouveau.setPrev(tmp);
             }
@@ -150,7 +111,7 @@ public class LinkedList {
         Node tmp;
         if(ind==0){
             if(size>1){
-                tmp=head.getNext();
+                tmp=(Node) head.getNext();
                 tmp.setPrev(null);
                 head.setNext(null);
                 head=tmp;
@@ -159,17 +120,17 @@ public class LinkedList {
                 head=null;
             }
         }else if(ind==size-1){
-            tmp=head;
+            tmp=(Node) head;
             for(int i=0;i<ind-1;i++)
-                tmp=tmp.getNext();
-            Node delVal=tmp.getNext();
+                tmp=(Node) tmp.getNext();
+            Node delVal=(Node) tmp.getNext();
             tmp.setNext(null);
             delVal.setPrev(null);
         }else{
-            tmp=head;
+            tmp=(Node) head;
             for(int i=0;i<ind-1;i++)
-                tmp=tmp.getNext();
-            Node delVal=tmp.getNext();
+                tmp=(Node) tmp.getNext();
+            Node delVal=(Node) tmp.getNext();
             tmp.setNext(delVal.getNext());
             delVal.getNext().setPrev(tmp);
             delVal.setNext(null);
