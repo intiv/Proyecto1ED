@@ -474,8 +474,7 @@ public class main extends javax.swing.JFrame {
                                 promedio += students.get(i).getGrades().get(j);
                             }
                             promedio /= students.get(i).getGrades().length();
-                            out.write(students.get(i).getName() + "," + promedio + "\n");
-                            
+                            out.write(students.get(i).getId() + "," + promedio + "\n");    
                         }
                     }
                     out.close();
