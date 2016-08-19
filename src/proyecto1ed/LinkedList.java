@@ -104,6 +104,15 @@ public class LinkedList extends ADTList{
         return true;
     }
     
+    public void reset(){
+        int it=this.size;
+        for (int i = 0; i < it; i++) {
+            this.remove(i);
+        }
+        size=0;
+        head=null;
+    }
+    
     public boolean remove(int ind){
         if(ind<0||ind>=size){
             return false;

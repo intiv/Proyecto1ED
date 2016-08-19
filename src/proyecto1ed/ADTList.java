@@ -6,7 +6,7 @@
 package proyecto1ed;
 
 public abstract class ADTList {
-    protected class Node{
+    protected abstract class Node{
         protected Node next,prev;
         
         Node(){

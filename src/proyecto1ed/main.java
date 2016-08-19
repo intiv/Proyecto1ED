@@ -327,8 +327,10 @@ public class main extends javax.swing.JFrame {
                 if (out != null) {
                     out.close();
                 }
+                if (in != null) {
+                    in.close();
+                }
             } catch (IOException ex) {
-
             }
             System.exit(0);
         }
@@ -452,21 +454,12 @@ public class main extends javax.swing.JFrame {
         int input = JOptionPane.showConfirmDialog(this, "Esto pasara los estudiantes del sistema a un archivo .csv en la carpeta del programa", "Confirme su eleccion", JOptionPane.OK_CANCEL_OPTION);
         if (input == JOptionPane.OK_OPTION) {
             try {
-                /*boolean validName=false;
-                while(!validName){
-                    String name=JOptionPane.showInputDialog("Ingrese nombre del archivo (sin extension)");
-                    archivo = new File("./"+name+".csv");
-                    if(archivo.exists())
-                        JOptionPane.showMessageDialog(this, "Ese archivo ya existe!");
-                    else
-                        validName=true;
-                }*/
                 JFileChooser chooser = new JFileChooser();
                 FileFilter filter = new FileNameExtensionFilter(null, "csv");
                 chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 chooser.setFileFilter(filter);
                 if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-                    out = new FileWriter(chooser.getSelectedFile()+".csv");
+                    out = new FileWriter(chooser.getSelectedFile() + ".csv");
                     for (int i = 0; i < students.length(); i++) {
                         if (students.get(i).getGrades().length() > 0) {
                             double promedio = 0.0;
@@ -474,10 +467,12 @@ public class main extends javax.swing.JFrame {
                                 promedio += students.get(i).getGrades().get(j);
                             }
                             promedio /= students.get(i).getGrades().length();
-                            out.write(students.get(i).getId() + "," + promedio + "\n");    
+                            out.write(students.get(i).getId() + "," + promedio + "\n");
                         }
                     }
+                    students.reset();
                     out.close();
+                    JOptionPane.showMessageDialog(this, "Los datos se guardaron con exito!");
                 }
 
             } catch (IOException | NullPointerException | InputMismatchException e) {
@@ -512,8 +507,8 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_bLoadMouseClicked
 
     private void bRandomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bRandomMouseClicked
-        Random rand=new Random();
-        int chosen=rand.nextInt(students.length());
+        Random rand = new Random();
+        int chosen = rand.nextInt(students.length());
         cbStudents.setSelectedIndex(chosen);
     }//GEN-LAST:event_bRandomMouseClicked
 
